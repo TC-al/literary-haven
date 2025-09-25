@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>The Literary Haven - Your Gateway to Endless Stories</title>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Source+Sans+Pro:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --primary-color: #2c1810;
+            --secondary-color: #8b4513;
+            --accent-color: #d4af37;
+            --text-light: #f5f5dc;
+            --text-dark: #2c1810;
+            --gradient-1: linear-gradient(135deg, #2c1810 0%, #8b4513 100%);
+            --gradient-2: linear-gradient(45deg, #d4af37 0%, #ffd700 100%);
+            --shadow: 0 10px 30px rgba(44, 24, 16, 0.3);
+        }
+
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #f5f5dc 0%, #e8dcc0 100%);
+            color: var(--text-dark);
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        .navbar { position: fixed; top: 0; width: 100%; background: rgba(44, 24, 16, 0.95); backdrop-filter: blur(10px); padding: 1rem 2rem; z-index: 1000; transition: all 0.3s ease; }
+        .nav-container { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; }
+        .logo { font-family: 'Crimson Text', serif; font-size: 1.8rem; font-weight: 600; color: var(--accent-color); text-decoration: none; transition: all 0.3s ease; }
+        .logo:hover { text-shadow: 0 0 20px var(--accent-color); transform: scale(1.05); }
+        .nav-links { display: flex; list-style: none; gap: 2rem; }
+        .nav-links a { color: var(--text-light); text-decoration: none; font-weight: 500; position: relative; transition: all 0.3s ease; }
+        .nav-links a:hover { color: var(--accent-color); transform: translateY(-2px); }
+        .nav-links a::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 2px; background: var(--gradient-2); transition: width 0.3s ease; }
+        .nav-links a:hover::after { width: 100%; }
+
+        /* Hero */
+        .hero { height: 100vh; background: var(--gradient-1); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+        .hero::before{
+            content:''; position:absolute; inset:0;
+            background:url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="books" patternUnits="userSpaceOnUse" width="20" height="20"><rect width="20" height="20" fill="none"/><rect x="2" y="2" width="3" height="16" fill="rgba(212,175,55,0.1)"/><rect x="6" y="4" width="3" height="14" fill="rgba(212,175,55,0.05)"/><rect x="10" y="1" width="3" height="17" fill="rgba(212,175,55,0.08)"/><rect x="14" y="3" width="3" height="15" fill="rgba(212,175,55,0.06)"/></pattern></defs><rect width="100" height="100" fill="url(%23books)"/></svg>') repeat;
+            opacity:.3;
+        }
+        .hero-content { text-align: center; color: var(--text-light); z-index: 2; max-width: 800px; padding: 2rem; animation: up .9s ease both .1s; }
+        .hero h1 { font-family: 'Crimson Text', serif; font-size: 3.5rem; margin-bottom: 1rem; background: var(--gradient-2); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: shimmer 3s ease-in-out infinite; }
+        @keyframes shimmer { 0%,100%{ filter:hue-rotate(0deg);} 50%{ filter:hue-rotate(10deg);} }
+        .hero p { font-size: 1.2rem; margin-bottom: 2rem; opacity: 0.9; }
+        .cta-button { display:inline-block; padding:1rem 2rem; background:var(--gradient-2); color:var(--text-dark); text-decoration:none; border-radius:50px; font-weight:600; transition:.3s; box-shadow:var(--shadow); position:relative; overflow:hidden; }
+        .cta-button::before{ content:''; position:absolute; inset:0; left:-100%; background:linear-gradient(90deg,transparent,rgba(255,255,255,.4),transparent); transition:left .6s; }
+        .cta-button:hover::before{ left:100%; }
+        .cta-button:hover{ transform: translateY(-3px) scale(1.05); box-shadow:0 15px 40px rgba(212,175,55,.4); }
+
+        /* Sections */
+        .featured-books { padding: 5rem 2rem; background: linear-gradient(180deg, #f5f5dc 0%, #fff 100%); }
+        .section-title { font-family:'Crimson Text',serif; font-size:2.5rem; text-align:center; margin-bottom:3rem; color:var(--primary-color); position:relative; }
+        .section-title::after{ content:''; position:absolute; bottom:-10px; left:50%; transform:translateX(-50%); width:80px; height:3px; background:var(--gradient-2); border-radius:2px; }
+
+        .books-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap:2rem; max-width:1200px; margin:0 auto; }
+
+        /* ==========================================
+           PURE CSS 3D BOOK CARD (no JS, no tinting)
+           Keeps the look of your original white card
+           ========================================== */
+        .book3d-wrap { perspective: 1200px; }
+        .book3d-card {
+            --rx: 0deg; --ry: 0deg; --tz: 40px;
+            position: relative; border-radius: 15px; overflow: hidden;
+            transform-style: preserve-3d;
+            transform: rotateX(var(--rx)) rotateY(var(--ry));
+            transition: transform .4s cubic-bezier(.2,.8,.2,1);
+            background: #fff;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.10);
+        }
+
+        /* top gold bar on hover (same effect as before) */
+        .book3d-card::before{
+            content:''; position:absolute; top:0; left:0; right:0; height:4px;
+            background: var(--gradient-2);
+            transform: scaleX(0); transform-origin:left; transition: transform .3s ease;
+        }
+        .book3d-wrap:has(.book3d-zone:hover) .book3d-card::before,
+        .book3d-card:focus-within::before { transform: scaleX(1); }
+
+        /* The “cover image” band – matches your .book-image */
+        .book3d-hero{
+            position:relative; height:200px;
+            background: var(--gradient-1);
+            color: var(--text-light);
+            display:flex; align-items:center; justify-content:center;
+            font-family: 'Crimson Text', serif; font-size:1.5rem;
+            transform: translateZ(0); /* stays flush to card */
+        }
+        .book3d-hero::after{
+            content:'∎∎∎';
+            font-size:3rem; opacity:.2; position:absolute; top:50%; left:50%;
+            transform:translate(-50%,-50%); letter-spacing:.5rem;
+        }
+
+        /* Content keeps your original typography */
+        .book3d-content{
+            transform: translateZ(var(--tz));
+            padding: 1.5rem;
+        }
+        .book-title{ font-family:'Crimson Text',serif; font-size:1.3rem; margin-bottom:.5rem; color:var(--primary-color); }
+        .book-author{ color: var(--secondary-color); font-style: italic; margin-bottom: 1rem; }
+        .book-price{ font-size:1.2rem; font-weight:600; color: var(--accent-color); }
+
+        /* 3×3 hover grid to steer tilt */
+        .book3d-zones{
+            position:absolute; inset:0; display:grid;
+            grid-template-columns:repeat(3,1fr); grid-template-rows:repeat(3,1fr);
+            z-index:5;
+        }
+        .book3d-zone{ opacity:0; background:transparent; border:0; }
+
+        /* Tilt rules (no tinting — only transforms) */
+        .book3d-wrap:has(.z-tl:hover) .book3d-card{ --rx: 10deg; --ry:-10deg; box-shadow: 0 20px 50px rgba(0,0,0,.18); }
+        .book3d-wrap:has(.z-tc:hover) .book3d-card{ --rx: 10deg; --ry: 0deg;  box-shadow: 0 20px 50px rgba(0,0,0,.18); }
+        .book3d-wrap:has(.z-tr:hover) .book3d-card{ --rx: 10deg; --ry: 10deg; box-shadow: 0 20px 50px rgba(0,0,0,.18); }
+
+        .book3d-wrap:has(.z-cl:hover) .book3d-card{ --rx: 0deg; --ry:-10deg;  box-shadow: 0 20px 50px rgba(0,0,0,.18); }
+        .book3d-wrap:has(.z-cc:hover) .book3d-card{ --rx: 0deg; --ry: 0deg;   box-shadow: 0 5px 20px rgba(0,0,0,.10); }
+        .book3d-wrap:has(.z-cr:hover) .book3d-card{ --rx: 0deg; --ry: 10deg;  box-shadow: 0 20px 50px rgba(0,0,0,.18); }
+
+        .book3d-wrap:has(.z-bl:hover) .book3d-card{ --rx:-10deg; --ry:-10deg; box-shadow: 0 20px 50px rgba(0,0,0,.18); }
+        .book3d-wrap:has(.z-bc:hover) .book3d-card{ --rx:-10deg; --ry: 0deg;  box-shadow: 0 20px 50px rgba(0,0,0,.18); }
+        .book3d-wrap:has(.z-br:hover) .book3d-card{ --rx:-10deg; --ry: 10deg; box-shadow: 0 20px 50px rgba(0,0,0,.18); }
+
+        /* Keyboard support */
+        .book3d-zone:focus-visible{ outline:2px solid #8aa0b3; }
+        .book3d-card:focus-within{ --rx:8deg; --ry:-8deg; box-shadow: 0 20px 50px rgba(0,0,0,.18); }
+
+        /* About / Contact / Footer */
+        .about { padding: 5rem 2rem; background: var(--primary-color); color: var(--text-light); }
+        .about-content { max-width: 800px; margin: 0 auto; text-align: center; }
+        .about p { font-size: 1.1rem; line-height: 1.8; margin-bottom: 2rem; opacity: 0.9; }
+        .contact { padding: 5rem 2rem; background: linear-gradient(135deg, #fff 0%, #f5f5dc 100%); }
+        .contact-container { max-width: 800px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; }
+        .contact-info { background: white; padding: 2rem; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); transition: .3s; }
+        .contact-info:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.15); }
+        .contact-icon { font-size: 2rem; margin-bottom: 1rem; color: var(--accent-color); font-weight: bold; }
+        .footer { background: var(--primary-color); color: var(--text-light); text-align: center; padding: 2rem; }
+
+        /* JS-free entrance animations (optional) */
+        @keyframes up { from { opacity:0; transform: translateY(30px); } to { opacity:1; transform:none; } }
+        .section-title { animation: up .7s ease both; }
+        .books-grid > * { opacity:0; animation: up .7s ease both; }
+        .books-grid > *:nth-child(1){ animation-delay:.05s; }
+        .books-grid > *:nth-child(2){ animation-delay:.12s; }
+        .books-grid > *:nth-child(3){ animation-delay:.19s; }
+        .books-grid > *:nth-child(4){ animation-delay:.26s; }
+        .books-grid > *:nth-child(5){ animation-delay:.33s; }
+        .books-grid > *:nth-child(6){ animation-delay:.40s; }
+        .books-grid > *:nth-child(7){ animation-delay:.47s; }
+        .books-grid > *:nth-child(8){ animation-delay:.54s; }
+
+        /* Responsive */
+        @media (max-width:768px){
+            .nav-links{ display:none; }
+            .hero h1{ font-size:2.5rem; }
+            .hero p{ font-size:1rem; }
+            .books-grid{ grid-template-columns:1fr; gap:1rem; }
+            .section-title{ font-size:2rem; }
+        }
+    </style>
+</head>
+<body>
+<!-- Navigation -->
+<nav class="navbar">
+    <div class="nav-container">
+        <a href="#" class="logo">The Literary Haven</a>
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#books">Books</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </div>
+</nav>
+
+<!-- Hero -->
+<section id="home" class="hero">
+    <div class="hero-content">
+        <h1>The Literary Haven</h1>
+        <p>Discover worlds beyond imagination. From timeless classics to contemporary masterpieces, find your next great read in our carefully curated collection.</p>
+        <a href="#books" class="cta-button">Explore Our Collection</a>
+    </div>
+</section>
+
+<!-- Featured Books (all 3D) -->
+<section id="books" class="featured-books">
+    <h2 class="section-title">Featured Books</h2>
+
+    <div class="books-grid">
+
+        <!-- 1 -->
+        <div class="book3d-wrap">
+            <article class="book3d-card" tabindex="0" aria-label="The Great Gatsby">
+                <div class="book3d-hero"><div>Classic Literature</div></div>
+                <div class="book3d-content">
+                    <h3 class="book-title">The Great Gatsby</h3>
+                    <p class="book-author">by F. Scott Fitzgerald</p>
+                    <p class="book-price">$12.99</p>
+                </div>
+                <div class="book3d-zones" aria-hidden="true">
+                    <button class="book3d-zone z-tl"></button><button class="book3d-zone z-tc"></button><button class="book3d-zone z-tr"></button>
+                    <button class="book3d-zone z-cl"></button><button class="book3d-zone z-cc"></button><button class="book3d-zone z-cr"></button>
+                    <button class="book3d-zone z-bl"></button><button class="book3d-zone z-bc"></button><button class="book3d-zone z-br"></button>
+                </div>
+            </article>
+        </div>
+
+        <!-- 2 -->
+        <div class="book3d-wrap">
+            <article class="book3d-card" tabindex="0" aria-label="Where the Crawdads Sing">
+                <div class="book3d-hero"><div>Modern Fiction</div></div>
+                <div class="book3d-content">
+                    <h3 class="book-title">Where the Crawdads Sing</h3>
+                    <p class="book-author">by Delia Owens</p>
+                    <p class="book-price">$16.99</p>
+                </div>
+                <div class="book3d-zones" aria-hidden="true">
+                    <button class="book3d-zone z-tl"></button><button class="book3d-zone z-tc"></button><button class="book3d-zone z-tr"></button>
+                    <button class="book3d-zone z-cl"></button><button class="book3d-zone z-cc"></button><button class="book3d-zone z-cr"></button>
+                    <button class="book3d-zone z-bl"></button><button class="book3d-zone z-bc"></button><button class="book3d-zone z-br"></button>
+                </div>
+            </article>
+        </div>
+
+        <!-- 3 -->
+        <div class="book3d-wrap">
+            <article class="book3d-card" tabindex="0" aria-label="Dune">
+                <div class="book3d-hero"><div>Science Fiction</div></div>
+                <div class="book3d-content">
+                    <h3 class="book-title">Dune</h3>
+                    <p class="book-author">by Frank Herbert</p>
+                    <p class="book-price">$14.99</p>
+                </div>
+                <div class="book3d-zones" aria-hidden="true">
+                    <button class="book3d-zone z-tl"></button><button class="book3d-zone z-tc"></button><button class="book3d-zone z-tr"></button>
+                    <button class="book3d-zone z-cl"></button><button class="book3d-zone z-cc"></button><button class="book3d-zone z-cr"></button>
+                    <button class="book3d-zone z-bl"></button><button class="book3d-zone z-bc"></button><button class="book3d-zone z-br"></button>
+                </div>
+            </article>
+        </div>
+
+        <!-- 4 -->
+        <div class="book3d-wrap">
+            <article class="book3d-card" tabindex="0" aria-label="Gone Girl">
+                <div class="book3d-hero"><div>Mystery &amp; Thriller</div></div>
+                <div class="book3d-content">
+                    <h3 class="book-title">Gone Girl</h3>
+                    <p class="book-author">by Gillian Flynn</p>
+                    <p class="book-price">$13.99</p>
+                </div>
+                <div class="book3d-zones" aria-hidden="true">
+                    <button class="book3d-zone z-tl"></button><button class="book3d-zone z-tc"></button><button class="book3d-zone z-tr"></button>
+                    <button class="book3d-zone z-cl"></button><button class="book3d-zone z-cc"></button><button class="book3d-zone z-cr"></button>
+                    <button class="book3d-zone z-bl"></button><button class="book3d-zone z-bc"></button><button class="book3d-zone z-br"></button>
+                </div>
+            </article>
+        </div>
+
+        <!-- 5 -->
+        <div class="book3d-wrap">
+            <article class="book3d-card" tabindex="0" aria-label="Becoming">
+                <div class="book3d-hero"><div>Biography</div></div>
+                <div class="book3d-content">
+                    <h3 class="book-title">Becoming</h3>
+                    <p class="book-author">by Michelle Obama</p>
+                    <p class="book-price">$18.99</p>
+                </div>
+                <div class="book3d-zones" aria-hidden="true">
+                    <button class="book3d-zone z-tl"></button><button class="book3d-zone z-tc"></button><button class="book3d-zone z-tr"></button>
+                    <button class="book3d-zone z-cl"></button><button class="book3d-zone z-cc"></button><button class="book3d-zone z-cr"></button>
+                    <button class="book3d-zone z-bl"></button><button class="book3d-zone z-bc"></button><button class="book3d-zone z-br"></button>
+                </div>
+            </article>
+        </div>
+
+        <!-- 6 -->
+        <div class="book3d-wrap">
+            <article class="book3d-card" tabindex="0" aria-label="Atomic Habits">
+                <div class="book3d-hero"><div>Self-Help</div></div>
+                <div class="book3d-content">
+                    <h3 class="book-title">Atomic Habits</h3>
+                    <p class="book-author">by James Clear</p>
+                    <p class="book-price">$15.99</p>
+                </div>
+                <div class="book3d-zones" aria-hidden="true">
+                    <button class="book3d-zone z-tl"></button><button class="book3d-zone z-tc"></button><button class="book3d-zone z-tr"></button>
+                    <button class="book3d-zone z-cl"></button><button class="book3d-zone z-cc"></button><button class="book3d-zone z-cr"></button>
+                    <button class="book3d-zone z-bl"></button><button class="book3d-zone z-bc"></button><button class="book3d-zone z-br"></button>
+                </div>
+            </article>
+        </div>
+
+    </div>
+</section>
+
+<!-- About -->
+<section id="about" class="about">
+    <div class="about-content">
+        <h2 class="section-title" style="color: var(--text-light);">About The Literary Haven</h2>
+        <p>For over two decades, The Literary Haven has been a sanctuary for book lovers, dreamers, and curious minds. We believe that every book has the power to transport you to new worlds, introduce you to fascinating characters, and expand your understanding of life itself.</p>
+        <p>Our carefully curated collection spans genres from timeless classics to cutting-edge contemporary works. Whether you're seeking escape, knowledge, or inspiration, our passionate team of literary enthusiasts is here to help you discover your next favorite read.</p>
+        <p>Visit us in our cozy downtown location or browse our extensive online catalog. Every book tells a story, and we're here to help you find yours.</p>
+    </div>
+</section>
+
+<!-- Contact -->
+<section id="contact" class="contact">
+    <h2 class="section-title">Visit Us</h2>
+    <div class="contact-container">
+        <div class="contact-info">
+            <div class="contact-icon">●</div>
+            <h3>Location</h3>
+            <p>123 Book Street<br>Literary District<br>Reading City, RC 12345</p>
+        </div>
+
+        <div class="contact-info">
+            <div class="contact-icon">◆</div>
+            <h3>Phone</h3>
+            <p>(555) 123-BOOK<br>(555) 123-2665</p>
+        </div>
+
+        <div class="contact-info">
+            <div class="contact-icon">◐</div>
+            <h3>Hours</h3>
+            <p>Mon-Fri: 9am-8pm<br>Sat: 10am-6pm<br>Sun: 12pm-5pm</p>
+        </div>
+
+        <div class="contact-info">
+            <div class="contact-icon">◒</div>
+            <h3>Email</h3>
+            <p>hello@literaryhaven.com<br>events@literaryhaven.com</p>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+    <p>&copy; 2025 The Literary Haven. Where stories come alive.</p>
+</footer>
+</body>
+</html>
