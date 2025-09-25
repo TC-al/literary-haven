@@ -6,6 +6,8 @@ The Literary Haven is a JavaScript‑free, HTML+CSS microsite that showcases a t
 
 Design choices favor progressive enhancement and accessibility. Movement is CSS‑only (scroll‑reveal via View Timelines with graceful fallbacks), smooth anchor navigation respects reduced‑motion settings, and interactive cards remain keyboard‑focusable with visual affordances that won’t rely exclusively on hover. A responsive CSS Grid layout allows the catalog to size well from mobile to desktop without scripting.
 
+---
+
 ## Project structure
 
 ```
