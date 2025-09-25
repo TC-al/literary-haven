@@ -1,12 +1,10 @@
-# The Literary Haven — README
+# The Literary Haven
 
 ## Short description (concept & design choices)
 
-The Literary Haven is a no‑JavaScript, HTML+CSS microsite that showcases a curated set of books with rich, tactile interactions. The core concept is to make browsing feel like handling physical book jackets: each “card” responds with a subtle 3D tilt and elevation, a shimmering hero headline invites exploration, and a warm palette of book‑binding browns with gold accents evokes a classic‑meets‑contemporary bookstore vibe.
+The Literary Haven is a JavaScript‑free, HTML+CSS microsite that showcases a thoughtfully curated collection of books with highly expressive, tactile interactions. The basic premise is to make it feel like flipping through physical book covers: each “card” will respond to touch with a subtle 3D tilt and levitation, a sprightly hero title invites discovery, and a warm color palette of bookbinding browns with gilding evokes traditional‑style contemporary bookstores.
 
-Design choices emphasize progressive enhancement and accessibility. Motion is CSS‑only (scroll‑reveal via View Timelines with graceful fallbacks), smooth anchor navigation respects reduced‑motion preferences, and the interactive cards remain keyboard‑focusable with visual affordances that don’t rely solely on hover. A responsive CSS Grid layout allows the catalog to scale elegantly from mobile to desktop without scripting.
-
----
+Design choices favor progressive enhancement and accessibility. Movement is CSS‑only (scroll‑reveal via View Timelines with graceful fallbacks), smooth anchor navigation respects reduced‑motion settings, and interactive cards remain keyboard‑focusable with visual affordances that won’t rely exclusively on hover. A responsive CSS Grid layout allows the catalog to size well from mobile to desktop without scripting.
 
 ## Project structure
 
