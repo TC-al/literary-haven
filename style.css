@@ -8,8 +8,19 @@
     --text-dark:#2c1810;
     --gradient-1:linear-gradient(135deg,#2c1810 0%,#8b4513 100%);
     --gradient-2:linear-gradient(45deg,#d4af37 0%,#ffd700 100%);
-    --shadow:0 10px 30px rgba(44,24,16,.3)
+    --shadow:0 10px 30px rgba(44,24,16,.3);
+    --nav-h:72px;
 }
+
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+}
+
+section{
+    scroll-margin-top:var(--nav-h)
+}
+
 
 body{
     font-family:'Source Sans Pro',sans-serif;
