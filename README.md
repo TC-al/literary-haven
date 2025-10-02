@@ -68,9 +68,3 @@ Design choices favor progressive enhancement and accessibility. Movement is CSSâ
 
 * **Fonts:** Crimson Text & Source Sans Pro via Google Fonts (linked in `<head>`).
 * **Design & code:** HTML structure in `index.html`; CSS theme and animations in `style.css`.
-
----
-
-## License
-
-Choose a license suitable for your use (e.g., MIT for open sharing). Add a `LICENSE` file to the project root.
